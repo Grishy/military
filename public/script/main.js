@@ -14,8 +14,8 @@ $(function () {
             }
         },
         'plugins': ['state', 'dnd', 'contextmenu', 'wholerow'],
-        "contextmenu":{
-            'items' : function(node) {
+        "contextmenu": {
+            'items': function (node) {
                 var items = $.jstree.defaults.contextmenu.items();
                 items.ccp = false;
 
@@ -53,12 +53,28 @@ $(function () {
         .on('changed.jstree', function (e, data) {
             if (data && data.selected && data.selected.length) {
                 $.get('/tree/get_content?id=' + data.selected.join(':'), function (d) {
-                    $('.m-main').text(d.content).show();
+                    // $('.m-main').text(d.content).show();
+                    console.log(d.content);
                 });
             }
             else {
-                $('#data .content').hide();
-                $('.m-main').text('Select a file from the tree.').show();
+                // $('.m-main').text('Select a file from the tree.').show();
             }
         });
+
+
+
+
+
+
+
+    // Initialize our editor
+    var editor = ContentTools.EditorApp.get();
+    editor.init('*[data-editable]', 'data-name');
+
+    // Listen for saved events
+    editor.addEventListener('saved', function (ev) {
+        // Save the changes ...
+        var regions = ev.detail().regions;
+    });
 });

@@ -8,7 +8,7 @@
     "ID": 2,
     "Name": "1_1",
     "Content": "Lol111",
-    "Children": null
+    "Children": []
    },
    {
     "ID": 3,
@@ -19,7 +19,7 @@
       "ID": 7,
       "Name": "New node",
       "Content": "",
-      "Children": null
+      "Children": []
      }
     ]
    }
@@ -34,7 +34,7 @@
     "ID": 10,
     "Name": "fd",
     "Content": "",
-    "Children": null
+    "Children": []
    }
   ]
  },
@@ -47,19 +47,20 @@
     "ID": 9,
     "Name": "1",
     "Content": "",
-    "Children": null
+    "Children": []
    },
    {
     "ID": 11,
     "Name": "2",
     "Content": "",
-    "Children": null
-   },
-   {
-    "ID": 12,
-    "Name": "3",
-    "Content": "",
-    "Children": null
+    "Children": [
+     {
+      "ID": 12,
+      "Name": "3",
+      "Content": "",
+      "Children": null
+     }
+    ]
    }
   ]
  },
@@ -72,7 +73,7 @@
     "ID": 8,
     "Name": "New node",
     "Content": "",
-    "Children": null
+    "Children": []
    }
   ]
  }
