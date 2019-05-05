@@ -20,6 +20,7 @@ html, body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border-right: 1px solid silver;
 }
 
 .m-menu-header {

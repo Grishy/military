@@ -39,6 +39,14 @@
   version = "v1.3.1"
 
 [[projects]]
+  branch = "master"
+  digest = "1:89df516e4ec36be36c4ccc661f2e9007ccb13d4e970e3b7e9c96e87fe4ceb5ba"
+  name = "github.com/jcelliott/lumber"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "dd349441af25132d146d7095c6693a15431fc9b1"
+
+[[projects]]
   digest = "1:f5a2051c55d05548d2d4fd23d244027b59fbd943217df8aa3b5e170ac2fd6e1b"
   name = "github.com/json-iterator/go"
   packages = ["."]
@@ -77,6 +85,14 @@
   pruneopts = "UT"
   revision = "4b7aa43c6742a2c18fdef89dd197aaae7dac7ccd"
   version = "1.0.1"
+
+[[projects]]
+  branch = "master"
+  digest = "1:b06f58272132cbed246a8d13cbb3855ee21406bd781fe6a01e2ae6f939969e13"
+  name = "github.com/nanobox-io/golang-scribble"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "aa3e7c118975babb5ab3bc2a221b9d5a420b625b"
 
 [[projects]]
   digest = "1:fd61cf4ae1953d55df708acb6b91492d538f49c305b364a014049914495db426"
@@ -124,6 +140,7 @@
   input-imports = [
     "github.com/gin-contrib/static",
     "github.com/gin-gonic/gin",
+    "github.com/nanobox-io/golang-scribble",
     "github.com/sirupsen/logrus",
   ]
   solver-name = "gps-cdcl"
