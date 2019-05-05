@@ -1,22 +1,32 @@
 package main
 
 import (
+	"military/app"
+
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	r := gin.Default()
+	logrus.SetReportCaller(true)
 
-	// if Allow DirectoryIndex
-	//r.Use(static.Serve("/", static.LocalFile("/tmp", true)))
-	// set prefix
-	//r.Use(static.Serve("/static", static.LocalFile("/tmp", true)))
+	r, err := SetupRouter()
+	if err != nil {
+		logrus.Panicf("Error init: %s\n", err.Error())
+	}
 
-	r.Use(static.Serve("/", static.LocalFile("/tmp", false)))
-	r.GET("/ping", func(c *gin.Context) {
-		c.String(200, "test")
-	})
-	// Listen and Server in 0.0.0.0:8080
-	r.Run(":8080")
+	if r.Run(":4200") != nil {
+		logrus.Panicf("Error executing: %s\n", err.Error())
+	}
+}
+
+// SetupRouter return gin router. Made in a separate function for writing tests.
+func SetupRouter() (*gin.Engine, error) {
+	router := gin.Default()
+	router.Use(static.Serve("/", static.LocalFile("public", false)))
+
+	err := app.Run(router)
+
+	return router, err
 }
