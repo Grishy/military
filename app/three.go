@@ -1,44 +1,35 @@
 package app
 
-type ThreeNodePublic struct {
-	ID       string
-	Content  string
-	Name     string
-	Children bool
+type TreeNodePublic struct {
+	ID       int    `json:"id"`
+	Name     string `json:"text"`
+	Children bool   `json:"children"`
 }
 
-type ThreeNode struct {
+type TreeNode struct {
+	ID       int
 	Name     string
 	Content  string
-	Parent   *ThreeNode
-	Children []*ThreeNode
+	Children []TreeNode
 }
 
-func New(name string, content string) *ThreeNode {
-	return &ThreeNode{
+func New(name string, content string) *TreeNode {
+	return &TreeNode{
 		Name:     name,
 		Content:  "",
-		Children: make([]*ThreeNode, 0, 0),
+		Children: make([]TreeNode, 0, 0),
 	}
 }
 
-func (t *ThreeNode) Get() ThreeNodePublic {
+func (t *TreeNode) Get() TreeNodePublic {
 	children := false
 	if len(t.Children) > 0 {
 		children = true
 	}
 
-	return ThreeNodePublic{
-		ID:       t.GetID(),
+	return TreeNodePublic{
+		ID:       t.ID,
 		Name:     t.Name,
 		Children: children,
 	}
-}
-
-func (t *ThreeNode) GetID() string {
-	if t.Parent == nil {
-		return "/"
-	}
-
-	return t.Parent.GetID() + "/" + t.GetID()
 }
