@@ -10,15 +10,7 @@ type TreeNode struct {
 	ID       int
 	Name     string
 	Content  string
-	Children []TreeNode
-}
-
-func New(name string, content string) *TreeNode {
-	return &TreeNode{
-		Name:     name,
-		Content:  "",
-		Children: make([]TreeNode, 0, 0),
-	}
+	Children []*TreeNode
 }
 
 func (t *TreeNode) Get() TreeNodePublic {

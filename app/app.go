@@ -12,12 +12,21 @@ import (
 )
 
 type App struct {
-	Tree     []TreeNode
-	TreeMap  map[int]TreeNode
+	Tree     []*TreeNode
+	TreeMap  map[int]*TreeNode
 	TreePath string
 }
 
 func initRouters(app *App, router *gin.Engine) {
+	router.GET("/tree/get_node", func(c *gin.Context) {
+		id := c.Query("id")
+		if id == "" {
+			id = "/"
+		}
+
+		el := app.findTree(id)
+		c.JSON(http.StatusOK, el)
+	})
 	router.GET("/tree/get_content", func(c *gin.Context) {
 		var id int
 		if v, e := strconv.Atoi(c.Query("id")); e == nil {
@@ -29,14 +38,22 @@ func initRouters(app *App, router *gin.Engine) {
 			"content": el.Content,
 		})
 	})
-	router.GET("/tree/get_node", func(c *gin.Context) {
-		id := c.Query("id")
-		if id == "" {
-			id = "/"
+	router.GET("/tree/create_node", func(c *gin.Context) {
+		var id int
+		var position int
+		if v, e := strconv.Atoi(c.Query("id")); e == nil {
+			id = v
 		}
 
-		el := app.findTree(id)
-		c.JSON(http.StatusOK, el)
+		if v, e := strconv.Atoi(c.Query("position")); e == nil {
+			position = v
+		}
+
+		text := c.Query("text")
+
+		c.JSON(http.StatusOK, gin.H{
+			"id": app.createNode(id, position, text),
+		})
 	})
 }
 
@@ -59,12 +76,12 @@ func (a *App) readTree() {
 		logrus.Fatal(err)
 	}
 
-	a.TreeMap = make(map[int]TreeNode, 0)
+	a.TreeMap = make(map[int]*TreeNode, 0)
 
 	a.readTreeToMap(a.Tree)
 }
 
-func (a *App) readTreeToMap(t []TreeNode) {
+func (a *App) readTreeToMap(t []*TreeNode) {
 	for _, el := range t {
 		a.TreeMap[el.ID] = el
 
@@ -109,11 +126,33 @@ func (a *App) findTree(idStr string) []TreeNodePublic {
 }
 
 func (a *App) emptyID() int {
-	for i := 0; ; i++ {
+	for i := 1; ; i++ {
 		if _, ok := a.TreeMap[i]; !ok {
 			return i
 		}
 	}
+}
+
+func (a *App) createNode(parendID, position int, name string) int {
+	id := a.emptyID()
+
+	el := a.TreeMap[parendID]
+
+	if el.Children == nil {
+		el.Children = make([]*TreeNode, 0)
+	}
+
+	el.Children = append(el.Children, &TreeNode{} /* use the zero value of the element type */)
+	copy(el.Children[position+1:], el.Children[position:])
+	el.Children[position] = &TreeNode{
+		ID:   id,
+		Name: name,
+	}
+
+	a.saveTree()
+	a.readTree()
+
+	return id
 }
 
 // Run it is main of programm
