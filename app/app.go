@@ -2,19 +2,21 @@ package app
 
 import (
 	"encoding/json"
-	"fmt"
+	"io/ioutil"
 	"net/http"
+	"os"
+
+	"github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
 	scribble "github.com/nanobox-io/golang-scribble"
 )
 
 type App struct {
-	Three ThreeNode
+	Conn      *scribble.Driver
+	Three     ThreeNode
+	ThreePath string
 }
-
-// a fish
-type Fish struct{ Name string }
 
 func initRouters(app *App, router *gin.Engine) {
 	router.GET("/api/top", func(c *gin.Context) {
@@ -25,46 +27,46 @@ func initRouters(app *App, router *gin.Engine) {
 	})
 }
 
-func initDB() {
-	dir := "./db"
-
-	db, err := scribble.New(dir, nil)
-	if err != nil {
-		fmt.Println("Error", err)
-	}
-
-	// Write a fish to the database
-	for _, name := range []string{"onefish", "twofish", "redfish", "bluefish"} {
-		db.Write("fish", name, Fish{Name: name})
-	}
-
-	// Read a fish from the database (passing fish by reference)
-	onefish := Fish{}
-	if err := db.Read("fish", "onefish", &onefish); err != nil {
-		fmt.Println("Error", err)
-	}
-
-	// Read all fish from the database, unmarshaling the response.
-	records, err := db.ReadAll("fish")
-	if err != nil {
-		fmt.Println("Error", err)
-	}
-
-	fishies := []Fish{}
-	for _, f := range records {
-		fishFound := Fish{}
-		if err := json.Unmarshal([]byte(f), &fishFound); err != nil {
-			fmt.Println("Error", err)
+func (a *App) readTree() {
+	if _, err := os.Stat(a.ThreePath); os.IsNotExist(err) {
+		empty := []byte("{}")
+		err = ioutil.WriteFile(a.ThreePath, empty, 0644)
+		if err != nil {
+			logrus.Fatal(err)
 		}
-		fishies = append(fishies, fishFound)
+	}
+
+	file, err := ioutil.ReadFile(a.ThreePath)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+
+	err = json.Unmarshal([]byte(file), &a.Three)
+	if err != nil {
+		logrus.Fatal(err)
+	}
+}
+
+func (a *App) saveTree() {
+	file, err := json.MarshalIndent(a.Three, "", " ")
+	if err != nil {
+		logrus.Fatal(err)
+	}
+
+	err = ioutil.WriteFile(a.ThreePath, file, 0644)
+	if err != nil {
+		logrus.Fatal(err)
 	}
 }
 
 // Run it is main of programm
 func Run(router *gin.Engine) error {
-	app := &App{}
+	app := &App{
+		ThreePath: "./db.json",
+	}
 
-	initDB()
+	app.readTree()
+
 	initRouters(app, router)
 	return nil
 }

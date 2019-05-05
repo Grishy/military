@@ -95,6 +95,14 @@
   revision = "aa3e7c118975babb5ab3bc2a221b9d5a420b625b"
 
 [[projects]]
+  digest = "1:274f67cb6fed9588ea2521ecdac05a6d62a8c51c074c1fccc6a49a40ba80e925"
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
   digest = "1:fd61cf4ae1953d55df708acb6b91492d538f49c305b364a014049914495db426"
   name = "github.com/sirupsen/logrus"
   packages = ["."]
@@ -141,6 +149,7 @@
     "github.com/gin-contrib/static",
     "github.com/gin-gonic/gin",
     "github.com/nanobox-io/golang-scribble",
+    "github.com/satori/go.uuid",
     "github.com/sirupsen/logrus",
   ]
   solver-name = "gps-cdcl"
