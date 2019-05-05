@@ -58,7 +58,11 @@ $(function () {
                     currID = data.node.id
                     
                     $('.m-main-title').val(data.node.text);
-                    $('.m-main-text').html(d.content);
+                    if (!d.content) {
+                        $('.m-main-text').html(d.content);
+                    } else {
+                        $('.m-main-text').html("");
+                    }
                 });
             }
             else {
