@@ -60,6 +60,8 @@ html, body {
     padding-left: 1rem;
     padding-right: 1rem;
     width: 75%;
+    flex-direction: column;
+    display: flex;
     background-color: white;
 }
 
@@ -71,5 +73,5 @@ html, body {
 
 .m-main-text {
     overflow-x: hidden;
-    overflow-y: visible;
+    flex: 1;
 }

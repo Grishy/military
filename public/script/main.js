@@ -1,4 +1,6 @@
 $(function () {
+    let currID;
+
     $('#tree').jstree({
         'core': {
             'data': {
@@ -53,20 +55,16 @@ $(function () {
         .on('changed.jstree', function (e, data) {
             if (data && data.selected && data.selected.length) {
                 $.get('/tree/get_content?id=' + data.selected.join(':'), function (d) {
-                    // $('.m-main').text(d.content).show();
-                    console.log(d.content);
+                    currID = data.node.id
+                    
+                    $('.m-main-title').val(data.node.text);
+                    $('.m-main-text').html(d.content);
                 });
             }
             else {
-                // $('.m-main').text('Select a file from the tree.').show();
+                $('.m-main-text').text('Выбериту нужный раздел.').show();
             }
         });
-
-
-
-
-
-
 
     // Initialize our editor
     var editor = ContentTools.EditorApp.get();
@@ -80,17 +78,15 @@ $(function () {
 
         // Check to see if there are any changes to save
         regions = ev.detail().regions;
-        if (Object.keys(regions).length == 0) {
-            return;
-        }
 
         // Set the editors state to busy while we save our changes
         this.busy(true);
 
         // Collect the contents of each region into a FormData instance
         payload = new FormData();
-        payload.append('id', window.location.pathname);
-        payload.append("text",regions["main-content"]);
+        payload.append('id', currID);
+        payload.append('title', $(".m-main-title").val());
+        payload.append("text", regions["main-content"]);
 
         // Send the update content to the server to be saved
         onStateChange = function (ev) {
@@ -111,7 +107,7 @@ $(function () {
 
         xhr = new XMLHttpRequest();
         xhr.addEventListener('readystatechange', onStateChange);
-        xhr.open('POST', '/x/save-page');
+        xhr.open('POST', '/save-page');
         xhr.send(payload);
     });
 
