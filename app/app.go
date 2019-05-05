@@ -55,6 +55,22 @@ func initRouters(app *App, router *gin.Engine) {
 			"id": app.createNode(id, position, text),
 		})
 	})
+	router.GET("/tree/rename_node", func(c *gin.Context) {
+		var id int
+		if v, e := strconv.Atoi(c.Query("id")); e == nil {
+			id = v
+		}
+
+		text := c.Query("text")
+
+		el := app.TreeMap[id]
+		el.Name = text
+
+		app.saveTree()
+		app.readTree()
+
+		c.JSON(http.StatusOK, true)
+	})
 }
 
 func (a *App) readTree() {

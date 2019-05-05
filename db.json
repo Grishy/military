@@ -29,18 +29,39 @@
   "ID": 4,
   "Name": "2",
   "Content": "Lol14",
-  "Children": null
+  "Children": [
+   {
+    "ID": 10,
+    "Name": "fd",
+    "Content": "",
+    "Children": null
+   }
+  ]
  },
  {
   "ID": 5,
   "Name": "3",
   "Content": "Lol15",
-  "Children": null
+  "Children": [
+   {
+    "ID": 9,
+    "Name": "New node",
+    "Content": "",
+    "Children": null
+   }
+  ]
  },
  {
   "ID": 6,
   "Name": "4",
   "Content": "Lol16",
-  "Children": null
+  "Children": [
+   {
+    "ID": 8,
+    "Name": "New node",
+    "Content": "",
+    "Children": null
+   }
+  ]
  }
 ]
