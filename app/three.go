@@ -15,7 +15,7 @@ type TreeNode struct {
 
 func (t *TreeNode) Get() TreeNodePublic {
 	children := false
-	if len(t.Children) > 0 {
+	if t.Children != nil && len(t.Children) > 0 {
 		children = true
 	}
 

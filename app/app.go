@@ -71,6 +71,19 @@ func initRouters(app *App, router *gin.Engine) {
 
 		c.JSON(http.StatusOK, true)
 	})
+	router.GET("/tree/delete_node", func(c *gin.Context) {
+		var id int
+		if v, e := strconv.Atoi(c.Query("id")); e == nil {
+			id = v
+		}
+
+		app.Tree = app.deleteTree(app.Tree, id)
+
+		app.saveTree()
+		app.readTree()
+
+		c.JSON(http.StatusOK, true)
+	})
 }
 
 func (a *App) readTree() {
@@ -106,6 +119,21 @@ func (a *App) readTreeToMap(t []*TreeNode) {
 		}
 		a.readTreeToMap(el.Children)
 	}
+}
+
+func (a *App) deleteTree(t []*TreeNode, id int) []*TreeNode {
+	list := make([]*TreeNode, 0)
+
+	for _, el := range t {
+		if el.ID == id {
+			continue
+		}
+
+		el.Children = a.deleteTree(el.Children, id)
+		list = append(list, el)
+	}
+
+	return list
 }
 
 func (a *App) saveTree() {
