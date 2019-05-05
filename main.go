@@ -16,7 +16,7 @@ func main() {
 		logrus.Panicf("Error init: %s\n", err.Error())
 	}
 
-	if r.Run(":4200") != nil {
+	if r.Run(":8080") != nil {
 		logrus.Panicf("Error executing: %s\n", err.Error())
 	}
 }

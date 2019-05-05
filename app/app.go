@@ -89,24 +89,42 @@ func initRouters(app *App, router *gin.Engine) {
 		c.JSON(http.StatusOK, true)
 	})
 	router.GET("/tree/move_node", func(c *gin.Context) {
-		// var id int
-		// var parent int
-		// var position int
-		// if v, e := strconv.Atoi(c.Query("id")); e == nil {
-		// 	id = v
-		// }
+		var id int
+		var parent int
+		var position int
+		if v, e := strconv.Atoi(c.Query("id")); e == nil {
+			id = v
+		}
 
-		// if v, e := strconv.Atoi(c.Query("parent")); e == nil {
-		// 	parent = v
-		// }
+		if v, e := strconv.Atoi(c.Query("parent")); e == nil {
+			parent = v
+		}
 
-		// if v, e := strconv.Atoi(c.Query("position")); e == nil {
-		// 	position = v
-		// }
+		if v, e := strconv.Atoi(c.Query("position")); e == nil {
+			position = v
+		}
+
+		el := *app.TreeMap[id]
+		app.Tree = app.deleteTree(app.Tree, id)
+
+		if c.Query("parent") == "#" {
+			app.Tree = append(app.Tree, &TreeNode{} /* use the zero value of the element type */)
+			copy(app.Tree[position+1:], app.Tree[position:])
+			newEl := &TreeNode{
+				ID:      id,
+				Name:    el.Name,
+				Content: el.Content,
+			}
+			app.Tree[position] = newEl
+		} else {
+			node := app.createNode(parent, position, "")
+			node.Name = el.Name
+			node.Content = el.Content
+			node.Children = el.Children
+		}
 
 		app.saveTree()
 		app.readTree()
-
 		c.JSON(http.StatusOK, true)
 	})
 }
