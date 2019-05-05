@@ -5,13 +5,15 @@ $(function () {
                 'data' : {
                     'url' : '/three/get_node',
                     'data' : function (node) {
+                        console.log(node);
+                        
                         return { 'id' : node.id };
                     }
                 },
                 'force_text' : true,
                 'check_callback' : true,
                 'themes' : {
-                    'responsive' : false
+                    'responsive' : true
                 }
             },
             'plugins' : ['state','dnd','contextmenu','wholerow']

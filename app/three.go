@@ -1,30 +1,23 @@
 package app
 
-import (
-	uuid "github.com/satori/go.uuid"
-)
-
 type ThreeNodePublic struct {
 	ID       string
-	Text     string
+	Content  string
 	Name     string
 	Children bool
 }
 
 type ThreeNode struct {
-	ID       string
 	Name     string
-	Text     string
+	Content  string
+	Parent   *ThreeNode
 	Children []*ThreeNode
 }
 
-func New(parent *ThreeNode, name string) *ThreeNode {
-	id := uuid.NewV4()
-
+func New(name string, content string) *ThreeNode {
 	return &ThreeNode{
-		ID:       id.String(),
 		Name:     name,
-		Text:     "",
+		Content:  "",
 		Children: make([]*ThreeNode, 0, 0),
 	}
 }
@@ -36,9 +29,16 @@ func (t *ThreeNode) Get() ThreeNodePublic {
 	}
 
 	return ThreeNodePublic{
-		ID:       t.ID,
+		ID:       t.GetID(),
 		Name:     t.Name,
-		Text:     t.Text,
 		Children: children,
 	}
+}
+
+func (t *ThreeNode) GetID() string {
+	if t.Parent == nil {
+		return "/"
+	}
+
+	return t.Parent.GetID() + "/" + t.GetID()
 }

@@ -6,15 +6,12 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/sirupsen/logrus"
-
 	"github.com/gin-gonic/gin"
-	scribble "github.com/nanobox-io/golang-scribble"
+	"github.com/sirupsen/logrus"
 )
 
 type App struct {
-	Conn      *scribble.Driver
-	Three     ThreeNode
+	Three     []ThreeNode
 	ThreePath string
 }
 
@@ -23,13 +20,15 @@ func initRouters(app *App, router *gin.Engine) {
 		c.JSON(http.StatusOK, 1)
 	})
 	router.GET("/three/get_node", func(c *gin.Context) {
-		c.JSON(http.StatusOK, 1)
+		id := c.Param("id")
+		el := app.findTree(id)
+		c.JSON(http.StatusOK, el)
 	})
 }
 
 func (a *App) readTree() {
 	if _, err := os.Stat(a.ThreePath); os.IsNotExist(err) {
-		empty := []byte("{}")
+		empty := []byte("[]")
 		err = ioutil.WriteFile(a.ThreePath, empty, 0644)
 		if err != nil {
 			logrus.Fatal(err)
@@ -59,6 +58,18 @@ func (a *App) saveTree() {
 	}
 }
 
+func (a *App) findTree(id string) []ThreeNodePublic {
+	list := make([]ThreeNodePublic, 0, 0)
+
+	if id == "#" {
+		for _, t := range a.Three {
+			list = append(list, t.Get())
+		}
+	}
+
+	return list
+}
+
 // Run it is main of programm
 func Run(router *gin.Engine) error {
 	app := &App{
@@ -66,6 +77,21 @@ func Run(router *gin.Engine) error {
 	}
 
 	app.readTree()
+
+	app.Three = []ThreeNode{
+		ThreeNode{
+			Name: "1",
+		},
+		ThreeNode{
+			Name: "2",
+		},
+		ThreeNode{
+			Name: "3",
+		},
+		ThreeNode{
+			Name: "4",
+		},
+	}
 
 	initRouters(app, router)
 	return nil
