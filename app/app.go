@@ -118,6 +118,7 @@ func initRouters(app *App, router *gin.Engine) {
 			app.Tree[position] = newEl
 		} else {
 			node := app.createNode(parent, position, "")
+			node.ID = el.ID
 			node.Name = el.Name
 			node.Content = el.Content
 			node.Children = el.Children
@@ -127,6 +128,17 @@ func initRouters(app *App, router *gin.Engine) {
 		app.readTree()
 		c.JSON(http.StatusOK, true)
 	})
+}
+
+func (a *App) updateIDForChildren(t []*TreeNode) {
+	for i := range t {
+		t[i].ID = a.emptyID()
+		if t[i].Children == nil {
+			continue
+		}
+
+		a.updateIDForChildren(t[i].Children)
+	}
 }
 
 func (a *App) readTree() {
