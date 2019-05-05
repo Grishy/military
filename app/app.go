@@ -51,8 +51,12 @@ func initRouters(app *App, router *gin.Engine) {
 
 		text := c.Query("text")
 
+		el := app.createNode(id, position, text)
+		app.saveTree()
+		app.readTree()
+
 		c.JSON(http.StatusOK, gin.H{
-			"id": app.createNode(id, position, text),
+			"id": el.ID,
 		})
 	})
 	router.GET("/tree/rename_node", func(c *gin.Context) {
@@ -78,6 +82,27 @@ func initRouters(app *App, router *gin.Engine) {
 		}
 
 		app.Tree = app.deleteTree(app.Tree, id)
+
+		app.saveTree()
+		app.readTree()
+
+		c.JSON(http.StatusOK, true)
+	})
+	router.GET("/tree/move_node", func(c *gin.Context) {
+		// var id int
+		// var parent int
+		// var position int
+		// if v, e := strconv.Atoi(c.Query("id")); e == nil {
+		// 	id = v
+		// }
+
+		// if v, e := strconv.Atoi(c.Query("parent")); e == nil {
+		// 	parent = v
+		// }
+
+		// if v, e := strconv.Atoi(c.Query("position")); e == nil {
+		// 	position = v
+		// }
 
 		app.saveTree()
 		app.readTree()
@@ -177,7 +202,7 @@ func (a *App) emptyID() int {
 	}
 }
 
-func (a *App) createNode(parendID, position int, name string) int {
+func (a *App) createNode(parendID, position int, name string) *TreeNode {
 	id := a.emptyID()
 
 	el := a.TreeMap[parendID]
@@ -188,15 +213,13 @@ func (a *App) createNode(parendID, position int, name string) int {
 
 	el.Children = append(el.Children, &TreeNode{} /* use the zero value of the element type */)
 	copy(el.Children[position+1:], el.Children[position:])
-	el.Children[position] = &TreeNode{
+	newEl := &TreeNode{
 		ID:   id,
 		Name: name,
 	}
+	el.Children[position] = newEl
 
-	a.saveTree()
-	a.readTree()
-
-	return id
+	return newEl
 }
 
 // Run it is main of programm
