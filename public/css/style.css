@@ -1,0 +1,26 @@
+html, body {
+    height: 100%;
+}
+
+.m-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.m-menu {
+    margin: 0;
+    padding: 0;
+    flex-grow: 3;
+    background-color: yellow;
+    display: flex;
+}
+
+.m-main {
+    margin: 0;
+    padding: 0;
+    flex-grow: 7;
+    background-color: green;
+    display: flex;
+}
