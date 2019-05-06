@@ -56,7 +56,7 @@ $(function () {
             if (data && data.selected && data.selected.length) {
                 $.get('/tree/get_content?id=' + data.selected.join(':'), function (d) {
                     currID = data.node.id
-                    
+
                     if (d.content) {
                         $('.m-main-text').html(d.content);
                     } else {
@@ -112,5 +112,123 @@ $(function () {
         xhr.open('POST', '/save-page');
         xhr.send(payload);
     });
+
+    ContentTools.IMAGE_UPLOADER = function (dialog) {
+        var imagePath, imageSize, rotate, uploadingTimeout;
+        // return imagePath = "/images/pages/demo/landscape-in-eire.jpg",
+        // imageSize = [780, 366],
+        uploadingTimeout = null;
+
+        function rotate() {
+            var clearBusy;
+            return dialog.busy(!0),
+                clearBusy = function (_this) {
+                    return function () {
+                        return dialog.busy(!1)
+                    }
+                }(this),
+                setTimeout(clearBusy, 1500)
+        };
+
+        dialog.addEventListener("imageuploader.cancelupload", function () {
+            // Cancel the current upload
+
+            // Stop the upload
+            if (xhr) {
+                xhr.upload.removeEventListener('progress', xhrProgress);
+                xhr.removeEventListener('readystatechange', xhrComplete);
+                xhr.abort();
+            }
+
+            // Set the dialog to empty
+            dialog.state('empty');
+        });
+
+        dialog.addEventListener("imageuploader.clear", function () {
+            return dialog.clear()
+        });
+
+        dialog.addEventListener('imageuploader.fileready', function (ev) {
+            // Upload a file to the server
+            var formData;
+            var file = ev.detail().file;
+
+            // Define functions to handle upload progress and completion
+            xhrProgress = function (ev) {
+                // Set the progress for the upload
+                dialog.progress((ev.loaded / ev.total) * 100);
+            }
+
+            xhrComplete = function (ev) {
+                var response;
+
+                // Check the request is complete
+                if (ev.target.readyState != 4) {
+                    return;
+                }
+
+                // Clear the request
+                xhr = null
+                xhrProgress = null
+                xhrComplete = null
+
+                // Handle the result of the upload
+                if (parseInt(ev.target.status) == 200) {
+                    // Unpack the response (from JSON)
+                    response = JSON.parse(ev.target.responseText);
+
+                    // Store the image details
+                    image = {
+                        size: response.size,
+                        url: response.url
+                    };
+
+                    // Populate the dialog
+                    dialog.populate(image.url, image.size);
+
+                } else {
+                    // The request failed, notify the user
+                    new ContentTools.FlashUI('no');
+                }
+            }
+
+            // Set the dialog state to uploading and reset the progress bar to 0
+            dialog.state('uploading');
+            dialog.progress(0);
+
+            // Build the form data to post to the server
+            formData = new FormData();
+            formData.append('image', file);
+
+            // Make the request
+            xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener('progress', xhrProgress);
+            xhr.addEventListener('readystatechange', xhrComplete);
+            xhr.open('POST', '/upload-image', true);
+            xhr.send(formData);
+        });
+
+        dialog.addEventListener("imageuploader.rotateccw", function () {
+            return rotate()
+        });
+
+        dialog.addEventListener("imageuploader.rotatecw", function () {
+            return rotate()
+        });
+
+        dialog.addEventListener("imageuploader.save", function () {
+            var clearBusy;
+            return dialog.busy(!0),
+                clearBusy = function (_this) {
+                    return function () {
+                        return dialog.busy(!1),
+                            dialog.save(imagePath, imageSize, {
+                                alt: "Landscape in Eire"
+                            })
+                    }
+                }(this),
+                setTimeout(clearBusy, 1e3)
+        })
+    }
 
 });

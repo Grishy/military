@@ -134,18 +134,20 @@ func initRouters(app *App, router *gin.Engine) {
 		if v, e := strconv.Atoi(c.PostForm("id")); e == nil {
 			id = v
 		}
-		title := c.PostForm("title")
 		text := c.PostForm("text")
 
 		el := app.TreeMap[id]
-		el.Name = text
-		el.Name = title
 		el.Content = text
 
 		app.saveTree()
 		app.readTree()
 
 		c.JSON(http.StatusOK, true)
+	})
+	router.POST("/upload-image", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"path": "/files/test.jpg",
+		})
 	})
 }
 

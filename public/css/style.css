@@ -64,6 +64,7 @@ html, body {
     flex-direction: column;
     display: flex;
     background-color: white;
+    overflow-x: hidden;
 }
 
 .m-main-title {
@@ -74,10 +75,12 @@ html, body {
 }
 
 .m-main-text {
-    overflow-x: hidden;
     flex: 1;
+    padding-bottom: 4rem;
 }
 
 .ct-inspector {
-    display: none;
+    left: inherit !important;
+    right: 0 !important;
+    width: 76% !important;
 }
