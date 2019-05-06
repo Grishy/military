@@ -17,7 +17,7 @@ type App struct {
 	TreePath string
 }
 
-func initRouters(app *App, router *gin.RouterGroup) {
+func initRouters(app *App, router *gin.Engine) {
 	router.GET("/tree/get_node", func(c *gin.Context) {
 		id := c.Query("id")
 		if id == "" {
@@ -281,9 +281,9 @@ func (a *App) createNode(parendID, position int, name string) *TreeNode {
 }
 
 // Run it is main of programm
-func Run(router *gin.RouterGroup, path string) error {
+func Run(router *gin.Engine) error {
 	app := &App{
-		TreePath: path,
+		TreePath: "./db.json",
 	}
 
 	app.readTree()

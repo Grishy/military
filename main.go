@@ -26,14 +26,7 @@ func SetupRouter() (*gin.Engine, error) {
 	router := gin.Default()
 	router.Use(static.Serve("/", static.LocalFile("public", false)))
 
-	var err error
-
-	err = app.Run(router.Group("/BKS/"), "./public/db/BKS.json")
-	err = app.Run(router.Group("/SB/"), "./public/db/SB.json")
-	err = app.Run(router.Group("/VMF/"), "./public/db/VMF.json")
-	err = app.Run(router.Group("/BDB/"), "./public/db/BDB.json")
-	err = app.Run(router.Group("/RVSM/"), "./public/db/RVSM.json")
-	err = app.Run(router.Group("/GUAP/"), "./public/db/GUAP.json")
+	err := app.Run(router)
 
 	return router, err
 }
