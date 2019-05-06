@@ -146,7 +146,14 @@ func initRouters(app *App, router *gin.Engine) {
 	})
 	router.POST("/upload-image", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"path": "/files/test.jpg",
+			"size": []int{200, 300},
+			"url":  "/files/test.png",
+		})
+	})
+	router.POST("/insert-image", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"size": []int{200, 300},
+			"url":  "/files/test.png",
 		})
 	})
 }

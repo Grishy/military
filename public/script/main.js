@@ -217,17 +217,64 @@ $(function () {
         });
 
         dialog.addEventListener("imageuploader.save", function () {
-            var clearBusy;
-            return dialog.busy(!0),
-                clearBusy = function (_this) {
-                    return function () {
-                        return dialog.busy(!1),
-                            dialog.save(imagePath, imageSize, {
-                                alt: "Landscape in Eire"
-                            })
-                    }
-                }(this),
-                setTimeout(clearBusy, 1e3)
+            var crop, cropRegion, formData;
+
+            // Define a function to handle the request completion
+            xhrComplete = function (ev) {
+                // Check the request is complete
+                if (ev.target.readyState !== 4) {
+                    return;
+                }
+
+                // Clear the request
+                xhr = null
+                xhrComplete = null
+
+                // Free the dialog from its busy state
+                dialog.busy(false);
+
+                // Handle the result of the rotation
+                if (parseInt(ev.target.status) === 200) {
+                    // Unpack the response (from JSON)
+                    var response = JSON.parse(ev.target.responseText);
+
+                    // Trigger the save event against the dialog with details of the
+                    // image to be inserted.
+                    dialog.save(
+                        response.url,
+                        response.size,
+                        {
+                            'alt': response.alt,
+                            'data-ce-max-width': response.size[0]
+                        });
+
+                } else {
+                    // The request failed, notify the user
+                    new ContentTools.FlashUI('no');
+                }
+            }
+
+            // Set the dialog to busy while the rotate is performed
+            dialog.busy(true);
+
+            // Build the form data to post to the server
+            formData = new FormData();
+            formData.append('url', image.url);
+
+            // Set the width of the image when it's inserted, this is a default
+            // the user will be able to resize the image afterwards.
+            formData.append('width', 600);
+
+            // Check if a crop region has been defined by the user
+            if (dialog.cropRegion()) {
+                formData.append('crop', dialog.cropRegion());
+            }
+
+            // Make the request
+            xhr = new XMLHttpRequest();
+            xhr.addEventListener('readystatechange', xhrComplete);
+            xhr.open('POST', '/insert-image', true);
+            xhr.send(formData);
         })
     }
 
