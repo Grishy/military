@@ -57,7 +57,6 @@ $(function () {
                 $.get('/tree/get_content?id=' + data.selected.join(':'), function (d) {
                     currID = data.node.id
                     
-                    $('.m-main-title').val(data.node.text);
                     if (d.content) {
                         $('.m-main-text').html(d.content);
                     } else {
@@ -86,13 +85,10 @@ $(function () {
         // Set the editors state to busy while we save our changes
         this.busy(true);
 
-        console.log(regions);
-        
         // Collect the contents of each region into a FormData instance
         payload = new FormData();
         payload.append('id', currID);
-        payload.append('title', $(".m-main-title").val());
-        payload.append("text", regions["main-content formatted"]);
+        payload.append("text", regions["formatted"]);
 
         // Send the update content to the server to be saved
         onStateChange = function (ev) {
