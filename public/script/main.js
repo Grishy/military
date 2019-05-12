@@ -15,7 +15,12 @@ $(function () {
                 'responsive': true
             }
         },
-        'plugins': ['state', 'dnd', 'contextmenu', 'wholerow'],
+        'plugins': [ 'dnd', 'contextmenu', 'wholerow', "types"],
+        "types": {
+            "default": {
+                "icon": "glyphicon glyphicon-file"
+            },
+        },
         "contextmenu": {
             'items': function (node) {
                 var items = $.jstree.defaults.contextmenu.items();
@@ -69,9 +74,16 @@ $(function () {
             }
         });
 
+
+    setTimeout(function () {
+        $('#tree')
+            .jstree('open_node', '5');
+    }, 500)
     // Initialize our editor
     var editor = ContentTools.EditorApp.get();
     editor.init('*[data-editable]', 'data-name');
+
+    editor.isReady(console.log)
 
     editor.addEventListener('saved', function (ev) {
         var name, onStateChange, passive, payload, regions, xhr;

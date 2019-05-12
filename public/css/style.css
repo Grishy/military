@@ -14,7 +14,7 @@ html, body {
 .m-menu {
     margin: 0;
     padding: 0;
-    width: 25%;
+    width: 20%;
     background-color: #2f2f2f;
     display: flex;
     justify-content: center;
@@ -37,7 +37,7 @@ html, body {
 
 .m-menu-header-logo img {
     width: 100%;
-    transform: translate3d(16%, 24%, 0);
+    /* transform: translate3d(0%, 24%, 0); */
 }
 
 .m-menu-header-title {
@@ -60,7 +60,7 @@ html, body {
     padding: 0;
     padding-left: 1rem;
     padding-right: 1rem;
-    width: 75%;
+    width: 80%;
     flex-direction: column;
     display: flex;
     background-color: white;

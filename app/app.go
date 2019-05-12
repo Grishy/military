@@ -153,12 +153,15 @@ func initRouters(app *App, router *gin.Engine) {
 				Your browser does not support HTML5 video.
 			</video>
 		`))
+	})
+
 	router.POST("/upload-image", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"size": []int{200, 300},
 			"url":  "/files/test.png",
 		})
 	})
+
 	router.POST("/insert-image", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"size": []int{200, 300},
