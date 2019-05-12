@@ -9,35 +9,233 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
 
     <link rel="stylesheet" href="/css/normalize.css">
-    <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/bootstrap.css">
 
-    <script src="/script/main.js"></script>
+    <script src="/script/jquery-3.4.1.js"></script>
+    <script src="/script/index.js"></script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background-size: cover;
+            background-position: center;
+            background-image: url("/images/bg.jpg");
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        header {
+            text-align: center;
+        }
+
+        header img {
+            max-height: 13vh;
+            margin: auto 0;
+        }
+
+
+        .snip1566 {
+            position: relative;
+            display: inline-block;
+            margin: 0.5vw;;
+            max-width: 190px;
+            width: 100%;
+            color: #bbb;
+            font-size: 16px;
+            box-shadow: none !important;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+
+        .snip1566 *,
+        .snip1566:before,
+        .snip1566:after {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: all 0.3s linear;
+            transition: all 0.3s linear;
+        }
+
+        .snip1566:before,
+        .snip1566:after {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            border-radius: 50%;
+            content: '';
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            z-index: -1;
+            border: 2px solid #bbb;
+            border-color: transparent #bbb;
+        }
+
+        .snip1566 img {
+            max-width: 100%;
+            backface-visibility: hidden;
+            vertical-align: top;
+            border-radius: 50%;
+            padding: 10px;
+        }
+
+        .snip1566 figcaption {
+            position: absolute;
+            top: 5px;
+            bottom: 5px;
+            left: 5px;
+            right: 5px;
+            opacity: 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            border-radius: 50%;
+        }
+
+        .snip1566 i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            z-index: 1;
+        }
+
+        .snip1566 a {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        .elem:hover .snip1566 figcaption,
+        .snip1566.hover figcaption {
+            opacity: 1;
+            -webkit-transform: translateX(0);
+            transform: translateX(0);
+        }
+
+        .elem:hover .snip1566:before,
+        .snip1566.hover:before,
+        .elem:hover .snip1566:after,
+        .snip1566.hover:after {
+            border-width: 10px;
+        }
+
+        .elem:hover .snip1566:before,
+        .snip1566.hover:before {
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .elem:hover .snip1566:after,
+        .snip1566.hover:after {
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+        .elem a {
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        ul {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 500;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            margin: 0;
+            padding: 0;
+            background-color: rgba(33, 33, 33, 0.77);
+        }
+    </style>
+
+
 </head>
 
 <body>
-    <div class="m-container">
-        <ul>
-            <li>
-                <a href="/tree.html?1">1</a>
-            </li>
-            <li>
-                <a href="/tree.html?5">2</a>
-            </li>
-            <li>
-                <a href="/tree.html?6">3</a>
-            </li>
-            <li>
-                <a href="/tree.html?9">4</a>
-            </li>
-            <li>
-                <a href="/tree.html?10">5</a>
-            </li>
-            <li>
-                <a href="/tree.html?14">6</a>
-            </li>
-        </ul>
-    </div>
+    <header>
+        <img src="/images/guap.png" alt="" srcset="">
+    </header>
+    <ul>
+        <div class="elem">
+            <a href="/tree.html?1">
+                <figure class="snip1566">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample14.jpg" alt="sq-sample14" />
+                    <figcaption><i class="glyphicon glyphicon-file"></i></figcaption>
+                </figure>
+
+                <div>ВКС</div>
+            </a>
+        </div>
+
+        <div class="elem">
+            <a href="/tree.html?5">
+                <figure class="snip1566">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample14.jpg" alt="sq-sample14" />
+                    <figcaption><i class="glyphicon glyphicon-file"></i></figcaption>
+                </figure>
+
+                <div>СВ</div>
+            </a>
+        </div>
+
+        <div class="elem">
+            <a href="/tree.html?6">
+                <figure class="snip1566">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample14.jpg" alt="sq-sample14" />
+                    <figcaption><i class="glyphicon glyphicon-file"></i></figcaption>
+                </figure>
+
+                <div>ВМФ</div>
+            </a>
+        </div>
+
+        <div class="elem">
+            <a href="/tree.html?9">
+                <figure class="snip1566">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample14.jpg" alt="sq-sample14" />
+                    <figcaption><i class="glyphicon glyphicon-file"></i></figcaption>
+                </figure>
+
+                <div>ВДВ</div>
+            </a>
+        </div>
+
+        <div class="elem">
+            <a href="/tree.html?10">
+                <figure class="snip1566">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample14.jpg" alt="sq-sample14" />
+                    <figcaption><i class="glyphicon glyphicon-file"></i></figcaption>
+                </figure>
+
+                <div>РВСН</div>
+            </a>
+        </div>
+
+        <div class="elem">
+            <a href="/tree.html?14">
+                <figure class="snip1566">
+                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sq-sample14.jpg" alt="sq-sample14" />
+                    <figcaption><i class="glyphicon glyphicon-file"></i></figcaption>
+                </figure>
+
+                <div>ГУАП УВЦ</div>
+            </a>
+        </div>
+    </ul>
+    <div></div>
 </body>
 
 </html>
