@@ -134,12 +134,9 @@ func initRouters(app *App, router *gin.Engine) {
 		if v, e := strconv.Atoi(c.PostForm("id")); e == nil {
 			id = v
 		}
-		title := c.PostForm("title")
 		text := c.PostForm("text")
 
 		el := app.TreeMap[id]
-		el.Name = text
-		el.Name = title
 		el.Content = text
 
 		app.saveTree()
@@ -156,6 +153,17 @@ func initRouters(app *App, router *gin.Engine) {
 				Your browser does not support HTML5 video.
 			</video>
 		`))
+	router.POST("/upload-image", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"size": []int{200, 300},
+			"url":  "/files/test.png",
+		})
+	})
+	router.POST("/insert-image", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"size": []int{200, 300},
+			"url":  "/files/test.png",
+		})
 	})
 }
 
