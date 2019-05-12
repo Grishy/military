@@ -147,6 +147,16 @@ func initRouters(app *App, router *gin.Engine) {
 
 		c.JSON(http.StatusOK, true)
 	})
+
+	router.GET("/video/:video", func(c *gin.Context) {
+		c.Data(http.StatusOK, gin.MIMEHTML, []byte(`
+			<video id="video1" style="width:600px;max-width:100%;" controls="">
+				<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+				<source src="mov_bbb.ogg" type="video/ogg">
+				Your browser does not support HTML5 video.
+			</video>
+		`))
+	})
 }
 
 func (a *App) updateIDForChildren(t []*TreeNode) {
