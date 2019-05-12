@@ -1,3 +1,14 @@
+function getQueryVariable(variable)
+{
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+}
+
 $(function () {
     let currID;
 
@@ -76,8 +87,9 @@ $(function () {
 
 
     setTimeout(function () {
+        getQueryVariable()
         $('#tree')
-            .jstree('open_node', '5');
+            .jstree('open_node', window.location.search.substring(1));
     }, 500)
     // Initialize our editor
     var editor = ContentTools.EditorApp.get();

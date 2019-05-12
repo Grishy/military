@@ -75,18 +75,39 @@
   "ID": 9,
   "Name": "ВДВ",
   "Content": "",
-  "Children": []
+  "Children": [
+   {
+    "ID": 17,
+    "Name": "123",
+    "Content": "",
+    "Children": null
+   }
+  ]
  },
  {
   "ID": 10,
   "Name": "РВСН",
   "Content": "",
-  "Children": []
+  "Children": [
+   {
+    "ID": 16,
+    "Name": "yy",
+    "Content": "",
+    "Children": null
+   }
+  ]
  },
  {
   "ID": 14,
   "Name": "ГУАП ВУЦ",
   "Content": "",
-  "Children": null
+  "Children": [
+   {
+    "ID": 15,
+    "Name": "test",
+    "Content": "",
+    "Children": null
+   }
+  ]
  }
 ]
