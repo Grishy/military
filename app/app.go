@@ -2,10 +2,12 @@ package app
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -146,13 +148,15 @@ func initRouters(app *App, router *gin.Engine) {
 	})
 
 	router.GET("/video/:video", func(c *gin.Context) {
-		c.Data(http.StatusOK, gin.MIMEHTML, []byte(`
+		html := `
 			<video id="video1" style="width:600px;max-width:100%;" controls="">
-				<source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-				<source src="mov_bbb.ogg" type="video/ogg">
+				<source src="replace">
 				Your browser does not support HTML5 video.
 			</video>
-		`))
+		`
+		fmt.Println(c.Param("video"))
+
+		c.Data(http.StatusOK, gin.MIMEHTML, []byte(strings.ReplaceAll(html, "replace", c.Param("video"))))
 	})
 
 	router.POST("/upload-image", func(c *gin.Context) {

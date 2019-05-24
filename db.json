@@ -12,7 +12,7 @@
      {
       "ID": 4,
       "Name": "2",
-      "Content": "\u003ciframe frameborder=\"0\" height=\"300\" src=\"https://www.youtube.com/embed/ET5tW7LN-Q8\" width=\"400\"\u003e\u003c/iframe\u003e",
+      "Content": "\u003ciframe frameborder=\"0\" height=\"300\" src=\"https://www.youtube.com/embed/ET5tW7LN-Q8\" width=\"400\"\u003e\u003c/iframe\u003e\n\u003ciframe frameborder=\"0\" height=\"300\" src=\"/video/VID-20180325-WA0011.mp4\" width=\"400\"\u003e\u003c/iframe\u003e",
       "Children": []
      }
     ]
@@ -100,7 +100,7 @@
  {
   "ID": 14,
   "Name": "ГУАП ВУЦ",
-  "Content": "",
+  "Content": "\u003ciframe frameborder=\"0\" height=\"300\" src=\"/video/5\" width=\"400\"\u003e\u003c/iframe\u003e",
   "Children": [
    {
     "ID": 15,
