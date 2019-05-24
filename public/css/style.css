@@ -116,3 +116,45 @@ body {
   right: 0 !important;
   width: 76% !important;
 }
+
+.promptWrapper {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsla(0, 0%, 91%, 0.9);
+}
+
+.promptBtnLine {
+  display: flex;
+  justify-content: space-between;
+}
+.pw_prompt {
+  width: 30rem;
+  height: 18rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: #b5b5b5;
+  border: 1px solid hsla(0, 0%, 100%, 0.5);
+  border-radius: 4px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.35);
+}
+.pw_prompt label {
+  display: block;
+  margin-bottom: 5px;
+}
+.pw_prompt input {
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.promptButtonClass {
+  width: 9rem;
+  border-radius: 5px;
+}

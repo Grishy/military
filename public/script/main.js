@@ -1,3 +1,8 @@
+
+var isLogged = false;
+var LOGGED_DELAY = 20000;
+var timer;
+
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
@@ -8,20 +13,117 @@ function getQueryVariable(variable) {
     return (false);
 }
 
+function afterCheck(log, pass) {
+    if (log == 'admin' && pass == 'admin') {
+
+        var editorPageContent = document.getElementsByClassName('ct-app')[0];
+        editorPageContent.classList.remove('non-visible');
+    } else {
+        document.location.reload(true);
+
+    }
+}
+
+var promptCount = 0;
+function promptCall(event) {
+    if(isLogged)return
+
+    var submit = function () {
+        afterCheck(input.value, input2.value);
+        document.body.removeChild(promptWrapper);
+    };
+
+    var skipLogging = function () {
+        document.location.reload(true);
+    }
+    if (event) event.stopImmediatePropagation();
+
+    var editorPageContent = document.getElementsByClassName('ct-app')[0];
+    editorPageContent.classList.add('non-visible');
+
+    var lm = "Пароль:",
+        bm = "Submit";
+
+    var promptWrapper = document.createElement("div");
+    promptWrapper.className = "promptWrapper";
+
+    promptWrapper.addEventListener("click", function (e) {
+        e.stopImmediatePropagation();
+    });
+
+    var prompt = document.createElement("div");
+    prompt.className = "pw_prompt";
+    promptWrapper.appendChild(prompt);
+
+
+
+    var label = document.createElement("label");
+    label.textContent = 'Логин:';
+    label.for = "pw_prompt_input" + (++promptCount);
+    prompt.appendChild(label);
+
+    var input = document.createElement("input");
+    input.id = "pw_prompt_input" + (promptCount);
+    input.type = "password";
+    input.addEventListener("keyup", function (e) {
+        if (e.keyCode == 13) submit();
+    }, false);
+    prompt.appendChild(input);
+
+
+    var label = document.createElement("label");
+    label.textContent = lm;
+    label.for = "pw_prompt_input" + (++promptCount);
+    prompt.appendChild(label);
+
+    var input2 = document.createElement("input");
+    input2.id = "pw_prompt_input" + (promptCount);
+    input2.type = "password";
+    input2.addEventListener("keyup", function (e) {
+        if (e.keyCode == 13) submit();
+    }, false);
+    prompt.appendChild(input2);
+
+
+    var btnLine = document.createElement("div");
+    btnLine.className = "promptBtnLine";
+
+    prompt.appendChild(btnLine);
+
+
+    var button = document.createElement("button");
+    button.textContent = "Отправить";
+    button.className = "promptButtonClass";
+
+    button.addEventListener("click", submit, false);
+    btnLine.appendChild(button);
+
+
+    var button2 = document.createElement("button");
+    button2.textContent = 'Отмена';
+    button2.className = "promptButtonClass";
+
+    button2.addEventListener("click", skipLogging, false);
+    btnLine.appendChild(button2);
+
+    document.body.appendChild(promptWrapper);
+
+    isLogged = true;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+        isLogged = false;
+    }, LOGGED_DELAY)
+};
+
+
 function hide() {
-    console.log('hide')
     document.getElementById('menu').classList.add('non-visible');
     document.getElementById('menu-line').classList.remove('non-visible');
-
-
 }
 //cause function with name @open@ is already used
 function openMe() {
-
-    console.log('open')
     document.getElementById('menu-line').classList.add('non-visible');
     document.getElementById('menu').classList.remove('non-visible');
-
 }
 
 $(function () {
@@ -51,7 +153,7 @@ $(function () {
             'items': function (node) {
                 var items = $.jstree.defaults.contextmenu.items();
                 items.ccp = false;
-
+                promptCall();
                 return items;
             }
         }
@@ -318,3 +420,21 @@ $(function () {
     }
 
 });
+
+
+
+
+
+
+function addPermissionsListner() {
+    var listnerBtn = document.getElementsByClassName('ct-ignition__button--edit')[0];
+    listnerBtn.addEventListener('click', promptCall);
+};
+
+
+function start() {
+    addPermissionsListner();
+
+}
+
+$(document).ready(start)
