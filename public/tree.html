@@ -24,9 +24,10 @@
 <body>
     <div class="m-container">
         <!-- Mene -->
-        <menu class="m-menu">
+        <menu class="m-menu" id="menu">
             <!-- Title and Logo -->
             <div class="m-menu-header">
+                <div class="m-menu-btn" onclick="hide()">скрыть</div>
                 <div class="m-menu-header-logo">
                     <a href="/">
                         <img src="/images/guap.png" alt="" srcset="">
@@ -39,6 +40,10 @@
                 <div id="tree">
                 </div>
             </div>
+        </menu>
+
+        <menu class="m-menu-open-line non-visible" id="menu-line">
+            <div class="m-menu-btn opnen-btn" onclick="openMe()">открыть</div>
         </menu>
 
 

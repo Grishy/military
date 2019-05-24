@@ -729,7 +729,7 @@
 }
 
 .ct-widget.ct-ignition {
-    left: 16px;
+    left: 12px !important;
     position: fixed;
     top: 90vh;
 }

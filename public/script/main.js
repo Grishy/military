@@ -1,12 +1,27 @@
-function getQueryVariable(variable)
-{
-       var query = window.location.search.substring(1);
-       var vars = query.split("&");
-       for (var i=0;i<vars.length;i++) {
-               var pair = vars[i].split("=");
-               if(pair[0] == variable){return pair[1];}
-       }
-       return(false);
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) { return pair[1]; }
+    }
+    return (false);
+}
+
+function hide() {
+    console.log('hide')
+    document.getElementById('menu').classList.add('non-visible');
+    document.getElementById('menu-line').classList.remove('non-visible');
+
+
+}
+//cause function with name @open@ is already used
+function openMe() {
+
+    console.log('open')
+    document.getElementById('menu-line').classList.add('non-visible');
+    document.getElementById('menu').classList.remove('non-visible');
+
 }
 
 $(function () {
@@ -26,7 +41,7 @@ $(function () {
                 'responsive': true
             }
         },
-        'plugins': [ 'dnd', 'contextmenu', 'wholerow', "types"],
+        'plugins': ['dnd', 'contextmenu', 'wholerow', "types"],
         "types": {
             "default": {
                 "icon": "glyphicon glyphicon-file"
