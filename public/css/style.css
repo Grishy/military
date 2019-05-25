@@ -15,7 +15,7 @@ body {
 
 .m-menu-open-line {
   z-index: 100;
-  width: 7rem;
+  min-width: 7rem;
   background-color: #2f2f2f;
   display: flex;
   justify-content: center;
@@ -92,7 +92,6 @@ body {
   padding: 0;
   padding-left: 1rem;
   padding-right: 1rem;
-  width: 80%;
   flex-direction: column;
   display: flex;
   background-color: white;
