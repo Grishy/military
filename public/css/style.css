@@ -93,6 +93,7 @@ body {
   padding-left: 1rem;
   padding-right: 1rem;
   flex-direction: column;
+  width: 100%;
   display: flex;
   background-color: white;
   overflow-x: hidden;

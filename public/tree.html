@@ -49,11 +49,19 @@
 
         <main class="m-main">
             <main data-editable data-name="formatted" class="m-main-text formatted">
-                <p>
-                    Содержимое
-                </p>
+                <div id="m-main_bg"></div>
             </main>
         </main>
+
+        <style>
+            #m-main_bg {
+                margin-top: 4rem;
+                background-size: cover;
+                background-position: center;
+                background-image: url("/images/bg.jpg");
+                height: calc(100% - 4rem);
+            }
+        </style>
     </div>
 </body>
 
