@@ -152,7 +152,7 @@ func initRouters(app *App, router *gin.Engine) {
 		file, header , err := c.Request.FormFile("image")
         filename := header.Filename
         fmt.Println(header.Filename)
-        out, err := os.Create("./public/files/images"+filename)
+        out, err := os.Create("./public/files/images/"+filename)
         if err != nil {
             log.Fatal(err)
         }
@@ -164,14 +164,14 @@ func initRouters(app *App, router *gin.Engine) {
 
 		c.JSON(http.StatusOK, gin.H{
 			"size": []int{200, 300},
-			"url":  "/files/images"+filename,
+			"url":  "/files/images/"+filename,
 		})
 	})
 
 	router.POST("/insert-image", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"size": []int{200, 300},
-			"url":  "/files/test.png",
+			"url":  c.PostForm("url"),
 		})
 	})
 }
