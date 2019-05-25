@@ -7,7 +7,8 @@ import (
 	"os"
 	"strconv"
 	"fmt"
-	"strings"
+	"log"
+	"io"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -148,9 +149,22 @@ func initRouters(app *App, router *gin.Engine) {
 	})
 
 	router.POST("/upload-image", func(c *gin.Context) {
+		file, header , err := c.Request.FormFile("image")
+        filename := header.Filename
+        fmt.Println(header.Filename)
+        out, err := os.Create("./public/files/images"+filename)
+        if err != nil {
+            log.Fatal(err)
+        }
+        defer out.Close()
+        _, err = io.Copy(out, file)
+        if err != nil {
+            log.Fatal(err)
+        }   
+
 		c.JSON(http.StatusOK, gin.H{
 			"size": []int{200, 300},
-			"url":  "/files/test.png",
+			"url":  "/files/images"+filename,
 		})
 	})
 
