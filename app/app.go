@@ -12,6 +12,8 @@ import (
     "image"
     _ "image/jpeg"
 	_ "image/png"
+	"os/exec"
+	"path/filepath"
 	
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -193,6 +195,20 @@ func initRouters(app *App, router *gin.Engine) {
 			"size": []int{width, height},
 			"url":  c.PostForm("url"),
 		})
+	})
+	
+	router.GET("/open/:doc", func(c *gin.Context) {
+		doc := c.Param("doc")
+		p,_ := filepath.Abs("./public/files/"+doc)
+		fmt.Println(p)
+
+		cmd := exec.Command("cmd", "/C start "+ p)
+		err := cmd.Start()
+		if err != nil {
+			log.Fatal(err)
+		}
+		
+		c.Data(http.StatusOK, "text/html",[]byte(`<script>window.close();</script>`))
 	})
 }
 
