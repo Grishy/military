@@ -9,7 +9,10 @@ import (
 	"fmt"
 	"log"
 	"io"
-
+    "image"
+    _ "image/jpeg"
+	_ "image/png"
+	
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -18,6 +21,19 @@ type App struct {
 	Tree     []*TreeNode
 	TreeMap  map[int]*TreeNode
 	TreePath string
+}
+
+func getImageDimension(imagePath string) (int, int) {
+    file, err := os.Open(imagePath)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "%v\n", err)
+    }
+
+    image, _, err := image.DecodeConfig(file)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "%s: %v\n", imagePath, err)
+    }
+    return image.Width, image.Height
 }
 
 func initRouters(app *App, router *gin.Engine) {
@@ -160,17 +176,21 @@ func initRouters(app *App, router *gin.Engine) {
         _, err = io.Copy(out, file)
         if err != nil {
             log.Fatal(err)
-        }   
+		}   
+		
+		width, height := getImageDimension("./public/files/images/"+filename)
 
 		c.JSON(http.StatusOK, gin.H{
-			"size": []int{200, 300},
+			"size": []int{width, height},
 			"url":  "/files/images/"+filename,
 		})
 	})
 
 	router.POST("/insert-image", func(c *gin.Context) {
+		width, height := getImageDimension("./public"+c.PostForm("url"))
+
 		c.JSON(http.StatusOK, gin.H{
-			"size": []int{200, 300},
+			"size": []int{width, height},
 			"url":  c.PostForm("url"),
 		})
 	})
