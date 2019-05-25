@@ -149,7 +149,7 @@ func initRouters(app *App, router *gin.Engine) {
 
 	router.GET("/video/:video", func(c *gin.Context) {
 		html := `
-			<video id="video1" style="width:600px;max-width:100%;" controls="">
+			<video style="width:100%">
 				<source src="replace">
 				Your browser does not support HTML5 video.
 			</video>
