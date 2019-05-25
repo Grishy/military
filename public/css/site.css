@@ -4,6 +4,10 @@
   box-sizing: inherit;
 }
 
+.ct-control-group--left{
+  display: none !important;
+}
+
 .formatted {
   font-family: "Work Sans", "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif, sans-serif;
   font-size: 14px;

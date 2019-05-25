@@ -2,13 +2,19 @@ package app
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
-	"strings"
-
+	"fmt"
+	"log"
+	"io"
+    "image"
+    _ "image/jpeg"
+	_ "image/png"
+	"os/exec"
+	"path/filepath"
+	
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -17,6 +23,19 @@ type App struct {
 	Tree     []*TreeNode
 	TreeMap  map[int]*TreeNode
 	TreePath string
+}
+
+func getImageDimension(imagePath string) (int, int) {
+    file, err := os.Open(imagePath)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "%v\n", err)
+    }
+
+    image, _, err := image.DecodeConfig(file)
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "%s: %v\n", imagePath, err)
+    }
+    return image.Width, image.Height
 }
 
 func initRouters(app *App, router *gin.Engine) {
@@ -147,30 +166,49 @@ func initRouters(app *App, router *gin.Engine) {
 		c.JSON(http.StatusOK, true)
 	})
 
-	router.GET("/video/:video", func(c *gin.Context) {
-		html := `
-			<video id="video1" style="width:600px;max-width:100%;" controls="">
-				<source src="replace">
-				Your browser does not support HTML5 video.
-			</video>
-		`
-		fmt.Println(c.Param("video"))
-
-		c.Data(http.StatusOK, gin.MIMEHTML, []byte(strings.ReplaceAll(html, "replace", c.Param("video"))))
-	})
-
 	router.POST("/upload-image", func(c *gin.Context) {
+		file, header , err := c.Request.FormFile("image")
+        filename := header.Filename
+        fmt.Println(header.Filename)
+        out, err := os.Create("./public/files/images/"+filename)
+        if err != nil {
+            log.Fatal(err)
+        }
+        defer out.Close()
+        _, err = io.Copy(out, file)
+        if err != nil {
+            log.Fatal(err)
+		}   
+		
+		width, height := getImageDimension("./public/files/images/"+filename)
+
 		c.JSON(http.StatusOK, gin.H{
-			"size": []int{200, 300},
-			"url":  "/files/test.png",
+			"size": []int{width, height},
+			"url":  "/files/images/"+filename,
 		})
 	})
 
 	router.POST("/insert-image", func(c *gin.Context) {
+		width, height := getImageDimension("./public"+c.PostForm("url"))
+
 		c.JSON(http.StatusOK, gin.H{
-			"size": []int{200, 300},
-			"url":  "/files/test.png",
+			"size": []int{width, height},
+			"url":  c.PostForm("url"),
 		})
+	})
+	
+	router.GET("/open/:doc", func(c *gin.Context) {
+		doc := c.Param("doc")
+		p,_ := filepath.Abs("./public/files/"+doc)
+		fmt.Println(p)
+
+		cmd := exec.Command("cmd", "/C start "+ p)
+		err := cmd.Start()
+		if err != nil {
+			log.Fatal(err)
+		}
+		
+		c.Data(http.StatusOK, "text/html",[]byte(`<script>window.close();</script>`))
 	})
 }
 
